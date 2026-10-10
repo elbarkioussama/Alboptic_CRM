@@ -1,0 +1,217 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-brand-red: #E82229;
+    --color-brand-red-hover: #D0181F;
+    --color-brand-navy: #172B4D;
+    --color-brand-navy-dark: #0F1D35;
+    --color-brand-navy-light: #203A66;
+    --color-brand-teal: #0F9D91;
+    --color-brand-teal-dark: #0C8278;
+    --color-brand-teal-light: #E6F7F5;
+}
+
+/* ==========================================================================
+   Tactile Button Interactions, Shadows & Global Cursor Standards
+   ========================================================================== */
+button,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.15s ease,
+                border-color 0.15s ease,
+                opacity 0.15s ease;
+}
+
+/* Default subtle drop shadow for depth on standard action buttons */
+button:not([class*="border-b"]):not([class*="text-slate-400"]):not([class*="hover:underline"]),
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.08);
+}
+
+/* Hover: subtle lift and elevated shadow */
+button:not([class*="border-b"]):not([class*="text-slate-400"]):not([class*="hover:underline"]):hover:not(:disabled),
+[role="button"]:hover:not(:disabled),
+input[type="button"]:hover:not(:disabled),
+input[type="submit"]:hover:not(:disabled),
+input[type="reset"]:hover:not(:disabled) {
+    cursor: pointer;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.12), 0 2px 4px -2px rgba(0, 0, 0, 0.08);
+}
+
+/* Active / Pressed: physical depression and tactile inward shadow (احساس الضغط) */
+button:active:not(:disabled),
+[role="button"]:active:not(:disabled),
+input[type="button"]:active:not(:disabled),
+input[type="submit"]:active:not(:disabled),
+input[type="reset"]:active:not(:disabled) {
+    transform: scale(0.975) translateY(1px) !important;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.18), 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Brand Red Buttons: Colored depth shadow */
+button[class*="bg-[#E82229]"],
+a[class*="bg-[#E82229]"] {
+    box-shadow: 0 2px 6px 0 rgba(232, 34, 41, 0.28), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+button[class*="bg-[#E82229]"]:hover:not(:disabled),
+a[class*="bg-[#E82229]"]:hover {
+    box-shadow: 0 4px 12px 0 rgba(232, 34, 41, 0.38), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================================================
+   Hover Color Inversion Rule (عكس لون الخلفية والكتابة عند التمرير)
+   When hovering over any clickable button, the background swaps with font color
+   ========================================================================== */
+
+/* 1. Primary Brand Red (Red bg + white text -> white bg + Red text & border) - Action buttons only */
+button[class*="bg-[#E82229]"]:hover:not(:disabled),
+a[class*="bg-[#E82229]"]:not(nav a):not(aside a):hover {
+    background-color: #ffffff !important;
+    color: #E82229 !important;
+    border: 1.5px solid #E82229 !important;
+}
+button[class*="bg-[#E82229]"]:hover:not(:disabled) svg,
+a[class*="bg-[#E82229]"]:not(nav a):not(aside a):hover svg {
+    color: #E82229 !important;
+    stroke: currentColor !important;
+}
+
+/* ==========================================================================
+   Sidebar Navigation Rules
+   - The ACTIVE current page link remains solid Red (#E82229) with white text.
+   - The INACTIVE links invert on hover to solid White background with Navy text.
+   ========================================================================== */
+
+/* Active Sidebar Navigation Item: Keep solid red and white text on hover */
+aside nav a[class*="bg-[#E82229]"],
+aside nav a[class*="bg-[#E82229]"]:hover,
+aside nav a[class*="bg-[#E82229]"]:focus,
+div[x-show="mobileOpen"] nav a[class*="bg-[#E82229]"],
+div[x-show="mobileOpen"] nav a[class*="bg-[#E82229]"]:hover {
+    background-color: #E82229 !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 10px 15px -3px rgba(232, 34, 41, 0.35), 0 4px 6px -4px rgba(232, 34, 41, 0.25) !important;
+}
+
+aside nav a[class*="bg-[#E82229]"] svg,
+aside nav a[class*="bg-[#E82229]"]:hover svg,
+div[x-show="mobileOpen"] nav a[class*="bg-[#E82229]"] svg,
+div[x-show="mobileOpen"] nav a[class*="bg-[#E82229]"]:hover svg {
+    color: #ffffff !important;
+    stroke: currentColor !important;
+}
+
+/* Inactive Sidebar Navigation Items: Color Inversion on hover (White bg + Navy text & icon) */
+aside nav a:not([class*="bg-[#E82229]"]):hover,
+div[x-show="mobileOpen"] nav a:not([class*="bg-[#E82229]"]):hover {
+    background-color: #ffffff !important;
+    color: #172B4D !important;
+    box-shadow: 0 4px 10px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -2px rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-1px);
+}
+
+aside nav a:not([class*="bg-[#E82229]"]):hover svg,
+div[x-show="mobileOpen"] nav a:not([class*="bg-[#E82229]"]):hover svg {
+    color: #172B4D !important;
+    stroke: currentColor !important;
+}
+
+/* 2. Primary Navy (Navy bg + white text -> white bg + Navy text & border) */
+button[class*="bg-[#172B4D]"]:hover:not(:disabled),
+a[class*="bg-[#172B4D]"]:hover {
+    background-color: #ffffff !important;
+    color: #172B4D !important;
+    border: 1.5px solid #172B4D !important;
+}
+button[class*="bg-[#172B4D]"]:hover:not(:disabled) svg,
+a[class*="bg-[#172B4D]"]:hover svg {
+    color: #172B4D !important;
+    stroke: currentColor !important;
+}
+
+/* 3. Primary Teal (Teal bg + white text -> white bg + Teal text & border) */
+button[class*="bg-[#0F9D91]"]:hover:not(:disabled),
+a[class*="bg-[#0F9D91]"]:hover {
+    background-color: #ffffff !important;
+    color: #0F9D91 !important;
+    border: 1.5px solid #0F9D91 !important;
+}
+button[class*="bg-[#0F9D91]"]:hover:not(:disabled) svg,
+a[class*="bg-[#0F9D91]"]:hover svg {
+    color: #0F9D91 !important;
+    stroke: currentColor !important;
+}
+
+/* 4. Light/Slate/Neutral Buttons with Navy/Dark text (Light bg + Dark text -> Navy bg + White text) */
+button[class*="bg-slate-100"]:hover:not(:disabled),
+button[class*="bg-slate-50"]:hover:not(:disabled),
+button[class*="border-slate-300"]:hover:not(:disabled),
+button[class*="border-slate-200"]:not([class*="bg-[#E82229]"]):not([class*="bg-[#172B4D]"]):not([class*="bg-[#0F9D91]"]):not([class*="bg-rose-50"]):not([class*="bg-teal-50"]):hover:not(:disabled) {
+    background-color: #172B4D !important;
+    color: #ffffff !important;
+    border-color: #172B4D !important;
+}
+button[class*="bg-slate-100"]:hover:not(:disabled) svg,
+button[class*="bg-slate-50"]:hover:not(:disabled) svg,
+button[class*="border-slate-300"]:hover:not(:disabled) svg,
+button[class*="border-slate-200"]:not([class*="bg-[#E82229]"]):not([class*="bg-[#172B4D]"]):not([class*="bg-[#0F9D91]"]):not([class*="bg-rose-50"]):not([class*="bg-teal-50"]):hover:not(:disabled) svg {
+    color: #ffffff !important;
+    stroke: currentColor !important;
+}
+
+/* 5. Soft Danger/Rose Buttons (Rose bg + Red text -> Red bg + White text) */
+button[class*="bg-rose-50"]:hover:not(:disabled),
+a[class*="bg-rose-50"]:hover {
+    background-color: #E82229 !important;
+    color: #ffffff !important;
+    border-color: #E82229 !important;
+}
+button[class*="bg-rose-50"]:hover:not(:disabled) svg,
+a[class*="bg-rose-50"]:hover svg {
+    color: #ffffff !important;
+    stroke: currentColor !important;
+}
+
+/* 6. Soft Teal Buttons (Teal-50 bg + Teal text -> Teal bg + White text) */
+button[class*="bg-teal-50"]:hover:not(:disabled),
+a[class*="bg-teal-50"]:hover {
+    background-color: #0F9D91 !important;
+    color: #ffffff !important;
+    border-color: #0F9D91 !important;
+}
+button[class*="bg-teal-50"]:hover:not(:disabled) svg,
+a[class*="bg-teal-50"]:hover svg {
+    color: #ffffff !important;
+    stroke: currentColor !important;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"],
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+input[type="reset"]:disabled {
+    cursor: not-allowed !important;
+    opacity: 0.6;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
